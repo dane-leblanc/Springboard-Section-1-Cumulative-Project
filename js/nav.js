@@ -38,7 +38,27 @@ function updateNavOnLogin() {
 // When user selects 'submit' in navbar, open story submission form
 function navSubmitClick(e) {
   console.debug("navSubmitClick");
+  hidePageComponents();
   $storyForm.show();
+  $allStoriesList.show();
 }
 
 $navSubmit.on("click", navSubmitClick);
+
+//when user selects 'favorites' in navbar, show only favorites
+function navFavsClick(e) {
+  console.debug("navsFavsClick");
+  hidePageComponents();
+  displayFavoritesList();
+}
+
+$navFavorites.on("click", navFavsClick);
+
+//when user selects 'my stories' in navbar, show only own stories
+function ownStoriesClick(e) {
+  console.debug("ownStoriesClick");
+  hidePageComponents();
+  displayUserStories();
+}
+
+$navMyStories.on("click", ownStoriesClick);

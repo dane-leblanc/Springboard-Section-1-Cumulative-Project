@@ -39,6 +39,10 @@
       <div class="main-nav-links hidden">
         |
         <a href="#" class="nav-link" id="nav-submit">submit</a>
+        |
+        <a href="#" class="nav-link" id="nav-favorites">favorites</a>
+        |
+        <a href="#" class="nav-link" id="nav-my-stories">my stories</a>
       </div>
 
       <div class="nav-right">
@@ -48,25 +52,34 @@
       </div>
     </nav>
 
-    <!-- Form for submitting new story -->
-    <form action="#" id="story-form" class="account-form hidden" method="post">
-      <h4>Post New Story</h4>
-      <label for="story-title">Title:</label>
-      <input type="text" id="story-title" placeholder="Title" />
-      <label for="story-url">Link:</label>
-      <input type="text" id="story-url" placeholder="www.yourlink.com" />
-      <label for="story-author">Author:</label>
-      <input type="text" id="story-author" placeholder="Author" />
-      <button type="submit">Submit</button>
-    </form>
-
     <!-- area for stories (all stories, user stories, favorites) -->
     <section class="stories-container container">
+      <!-- Form for submitting new story -->
+      <form
+        action="#"
+        id="story-form"
+        class="account-form hidden"
+        method="post"
+      >
+        <h4>Post New Story</h4>
+        <label for="story-title">Title:</label>
+        <input type="text" id="story-title" placeholder="Title" />
+        <label for="story-url">Link:</label>
+        <input type="text" id="story-url" placeholder="www.yourlink.com" />
+        <label for="story-author">Author:</label>
+        <input type="text" id="story-author" placeholder="Author" />
+        <button type="submit">Submit</button>
+      </form>
+
       <!-- loading message (removed by JS after stories loaded) -->
       <div id="stories-loading-msg">Loading&hellip;</div>
 
       <!-- List of all stories -->
       <ol id="all-stories-list" class="stories-list"></ol>
+      <!-- List of stories favorited by user -->
+      <ol id="favorited-stories" class="hidden stories-list"></ol>
+      <!-- List of stories uploaded by user -->
+      <ol id="my-stories" class="hidden stories-list"></ol>
     </section>
 
     <!-- Login and signup forms -->

@@ -19,16 +19,13 @@ async function getAndShowStoriesOnStart() {
  * Returns the markup for the story.
  */
 
-function generateStoryMarkup(story) {
+function generateStoryMarkup(story, showDelete = false) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
 
   //only show the star if a user is signed in
   const showStar = Boolean(currentUser);
-
-  //only show delete button if a user is signed in
-  const showDelete = Boolean(currentUser);
 
   return $(`
       <li id="${story.storyId}">
@@ -87,7 +84,6 @@ async function postStory(e) {
   let author = $("#story-author").val();
   let username = currentUser.username;
   let storyData = { title, url, author, username };
-  console.log(title, url, author);
   //execute addStory function (includes POST)
   let story = await storyList.addStory(currentUser, storyData);
   // take return and put in markup function
@@ -125,7 +121,9 @@ async function toggleStoryFavorite(e) {
   }
 }
 //add click event to the stars
-$allStoriesList.on("click", ".star", toggleStoryFavorite);
+$body.on("click", ".star", toggleStoryFavorite);
+
+//remove story on button click
 
 async function deleteStory(e) {
   console.debug("deleteStory");
@@ -135,8 +133,46 @@ async function deleteStory(e) {
 
   await storyList.removeStory(currentUser, storyId);
 
-  await putStoriesOnPage();
+  await displayUserStories();
 }
 
 //add click event to delete buttons
-$allStoriesList.on("click", ".deleteBtn", deleteStory);
+$ownStories.on("click", ".deleteBtn", deleteStory);
+
+//put favorites list on page
+
+function displayFavoritesList() {
+  console.debug("displayFavoritesList");
+
+  $favoritedStories.empty();
+
+  if (currentUser.favorites.length === 0) {
+    $favoritedStories.append(`<h5>No favorites yet!!!</h5>`);
+  } else {
+    //loop through all of user's favorites and put their HTML in DOM
+    for (let story of currentUser.favorites) {
+      const $story = generateStoryMarkup(story);
+      $favoritedStories.append($story);
+    }
+  }
+  $favoritedStories.show();
+}
+
+//put own stories on page
+
+function displayUserStories() {
+  console.debug("displayUserStories");
+
+  $ownStories.empty();
+
+  if (currentUser.ownStories.length === 0) {
+    $ownStories.append(`<h5>You have not posted any stories!</h5>`);
+  } else {
+    //loop through all of user posts and put their HTML in DOM
+    for (let story of currentUser.ownStories) {
+      const $story = generateStoryMarkup(story, true);
+      $ownStories.append($story);
+    }
+  }
+  $ownStories.show();
+}
