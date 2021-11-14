@@ -29,6 +29,7 @@ async function login(evt) {
     updateUIOnUserLogin();
   } catch (e) {
     alert("Invalid username/password. Please try again.");
+    $loginForm.trigger("reset");
   }
 }
 
