@@ -10,22 +10,26 @@ let currentUser;
 /** Handle login form submission. If login ok, sets up the user instance */
 
 async function login(evt) {
-  console.debug("login", evt);
-  evt.preventDefault();
+  try {
+    console.debug("login", evt);
+    evt.preventDefault();
 
-  // grab the username and password
-  const username = $("#login-username").val();
-  const password = $("#login-password").val();
+    // grab the username and password
+    const username = $("#login-username").val();
+    const password = $("#login-password").val();
 
-  // User.login retrieves user info from API and returns User instance
-  // which we'll make the globally-available, logged-in user.
-  currentUser = await User.login(username, password);
+    // User.login retrieves user info from API and returns User instance
+    // which we'll make the globally-available, logged-in user.
+    currentUser = await User.login(username, password);
 
-  $loginForm.trigger("reset");
+    $loginForm.trigger("reset");
 
-  hidePageComponents();
-  saveUserCredentialsInLocalStorage();
-  updateUIOnUserLogin();
+    hidePageComponents();
+    saveUserCredentialsInLocalStorage();
+    updateUIOnUserLogin();
+  } catch (e) {
+    alert("Invalid username/password. Please try again.");
+  }
 }
 
 $loginForm.on("submit", login);
@@ -42,8 +46,10 @@ async function signup(evt) {
 
   // User.signup retrieves user info from API and returns User instance
   // which we'll make the globally-available, logged-in user.
+
   currentUser = await User.signup(username, password, name);
 
+  hidePageComponents();
   saveUserCredentialsInLocalStorage();
   updateUIOnUserLogin();
 
